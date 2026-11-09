@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDesk | Text Intelligence</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="text-page">
+
+    <div class="background-letters">
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+        <span>D</span>
+        <span>E</span>
+        <span>F</span>
+        <span>G</span>
+        <span>H</span>
+    </div>
+
+    <header class="navbar">
+        <h2>🧠 SmartDesk</h2>
+        <a href="{{ url_for('home') }}">Home</a>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Text Intelligence Lab</h1>
+            <p>Analyze. Discover. Learn.</p>
+        </section>
+
+        <section class="input-card">
+
+            <h2>✍️ Enter Your Paragraph</h2>
+
+            <form method="POST" action="{{ url_for('text') }}">
+
+                
+<textarea
+    id="paragraph"
+    name="paragraph"
+    rows="8"
+    placeholder="Enter your paragraph here..."
+    required>{{ request.form.get('paragraph', '') }}</textarea>
+    <div id="textDisplay"></div>
+    <label for="keyword">Search keyword</label>
+<input
+    type="text"
+    id="keyword"
+    placeholder="Enter a word to search..."
+>
+<p id="highlightResult"></p>
+
+
+<div class="text-counter">
+    <span>Words: <strong id="wordCount">0</strong></span>
+    <span>Characters: <strong id="charCount">0</strong></span>
+</div>
+
+
+                <button type="submit">Analyze Text →</button>
+
+            </form>
+
+        </section>
+
+        {% if result %}
+
+        <section class="results">
+
+            <h2>📊 Analysis Results</h2>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <h3>Total Words</h3>
+                    <p>{{ result.total_words }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Unique Words</h3>
+                    <p>{{ result.unique_words }}</p>
+                </div>
+
+            </div>
+
+            <div class="result-grid">
+
+                <div class="result-card">
+                    <h3>✨ Words Occurring Only Once</h3>
+
+                    <div class="word-list">
+                        {% for word in result.words_occurring_once %}
+                            <span>{{ word }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔥 Most Frequently Used Words</h3>
+
+                    {% for word, count in result.most_frequent_words %}
+                        <div class="frequency-row">
+                            <span>{{ word }}</span>
+                            <strong>{{ count }}</strong>
+                        </div>
+                    {% endfor %}
+                    <div class="result-card">
+    <h3>📊 Word Frequency Chart</h3>
+
+ <img
+    src="{{ url_for('static', filename='word_chart.png') }}"
+    alt="Word frequency chart"
+    class="word-chart">
+</div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+        <a class="back-button" href="{{ url_for('home') }}">
+            ← Back to Dashboard
+        </a>
+
+    </main>
+    
+<script>
+    const paragraph = document.getElementById("paragraph");
+    const wordCount = document.getElementById("wordCount");
+    const charCount = document.getElementById("charCount");
+
+    function updateCounter() {
+        const text = paragraph.value;
+
+        const words = text.trim() === ""
+            ? []
+            : text.trim().split(/\s+/);
+
+        wordCount.textContent = words.length;
+        charCount.textContent = text.length;
+    }
+
+    paragraph.addEventListener("input", updateCounter);
+
+    updateCounter();
+    const keyword = document.getElementById("keyword");
+
+keyword.addEventListener("input", function() {
+    const searchWord = keyword.value.trim();
+
+    if (searchWord !== "") {
+        console.log("Searching for:", searchWord);
+    }
+});
+const highlightResult = document.getElementById("highlightResult");
+
+keyword.addEventListener("input", function() {
+    const searchWord = keyword.value.trim();
+
+    if (searchWord !== "") {
+        highlightResult.textContent = "Keyword entered: " + searchWord;
+    } else {
+        highlightResult.textContent = "";
+    }
+});
+const textDisplay = document.getElementById("textDisplay");
+
+paragraph.addEventListener("input", highlightText);
+keyword.addEventListener("input", highlightText);
+
+function highlightText() {
+    const text = paragraph.value;
+    const searchWord = keyword.value.trim();
+
+    if (searchWord === "") {
+        textDisplay.textContent = text;
+        return;
+    }
+
+    const words = text.split(new RegExp(`(${searchWord})`, "gi"));
+    if (!text.toLowerCase().includes(searchWord.toLowerCase())) {
+    textDisplay.textContent = "Word not found in the paragraph.";
+    return;
+}
+
+    textDisplay.innerHTML = "";
+
+    words.forEach(function(word) {
+        if (word.toLowerCase() === searchWord.toLowerCase()) {
+            const mark = document.createElement("mark");
+            mark.textContent = word;
+            textDisplay.appendChild(mark);
+        } else {
+            textDisplay.appendChild(document.createTextNode(word));
+        }
+    });
+}
+</script>
+
+
+</body>
+</html>

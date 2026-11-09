@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing - SmartDesk</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="image-page">
+
+    <header>
+        <h1>Image Processing Lab</h1>
+        <p>Upload and process your images</p>
+    </header>
+
+    <main class="image-card">
+
+        <h2>Upload an Image</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label>Select Image:</label>
+            <input type="file"
+                   name="image"
+                   accept="image/*"
+                   required>
+
+            <label>Width:</label>
+            <input type="number"
+                   name="width"
+                   min="1"
+                   placeholder="Enter width">
+
+            <label>Height:</label>
+            <input type="number"
+                   name="height"
+                   min="1"
+                   placeholder="Enter height">
+
+            <label>
+                <input type="checkbox"
+                       name="grayscale"
+                       value="yes">
+                Convert to Grayscale
+            </label>
+
+            <label>Rotate:</label>
+            <select name="rotation">
+                <option value="0">No Rotation</option>
+                <option value="90">90 Degrees</option>
+                <option value="180">180 Degrees</option>
+                <option value="270">270 Degrees</option>
+            </select>
+
+            <label>Flip:</label>
+            <select name="flip">
+                <option value="none">No Flip</option>
+                <option value="horizontal">Horizontal</option>
+                <option value="vertical">Vertical</option>
+            </select>
+
+            <label>Blur:</label>
+            <select name="blur">
+                <option value="0">No Blur</option>
+                <option value="1">Low</option>
+                <option value="3">Medium</option>
+                <option value="5">High</option>
+            </select>
+
+            <label>Sharpen:</label>
+            <select name="sharpen">
+                <option value="0">No Sharpen</option>
+                <option value="1.5">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+            </select>
+
+            <label>Brightness:</label>
+            <select name="brightness">
+                <option value="1">Normal</option>
+                <option value="0.5">Dark</option>
+                <option value="1.5">Bright</option>
+                <option value="2">Very Bright</option>
+            </select>
+
+            <label>Contrast:</label>
+            <select name="contrast">
+                <option value="1">Normal</option>
+                <option value="0.5">Low</option>
+                <option value="1.5">Medium</option>
+                <option value="2">High</option>
+            </select>
+
+            <h3>Crop Image</h3>
+
+            <label>Left:</label>
+            <input type="number"
+                   name="crop_left"
+                   min="0"
+                   placeholder="Left coordinate">
+
+            <label>Top:</label>
+            <input type="number"
+                   name="crop_top"
+                   min="0"
+                   placeholder="Top coordinate">
+
+            <label>Crop Width:</label>
+            <input type="number"
+                   name="crop_width"
+                   min="1"
+                   placeholder="Crop width">
+
+            <label>Crop Height:</label>
+            <input type="number"
+                   name="crop_height"
+                   min="1"
+                   placeholder="Crop height">
+
+            <label>Image Format:</label>
+            <select name="format">
+                <option value="PNG">PNG</option>
+                <option value="JPEG">JPEG</option>
+                <option value="WEBP">WEBP</option>
+            </select>
+
+            <button type="submit">
+                Process Image
+            </button>
+
+        </form>
+
+        {% if original_path %}
+
+            <h2>Original Image</h2>
+
+            <img src="{{ original_path }}"
+                 width="300">
+
+        {% endif %}
+
+        {% if processed_path %}
+
+            <h2>Processed Image</h2>
+
+            <img src="{{ processed_path }}"
+                 width="300">
+
+            <br>
+
+            <a href="{{ processed_path }}"
+               download>
+                Download Processed Image
+            </a>
+
+        {% endif %}
+
+        <br><br>
+
+        <a href="{{ url_for('home') }}">
+            Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+</html>

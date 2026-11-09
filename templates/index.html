@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartDesk</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>SMART DESK</h1>
+        <p>Your Python Productivity and Intelligence Platform</p>
+    </header>
+
+    <main>
+        <h2>Welcome to SmartDesk</h2>
+        <p>Explore different tools built using Python libraries.</p>
+
+        <div class="container">
+
+             <a href="{{ url_for('text') }}" class="card">
+    <h3>Text Intelligence</h3>
+    <p>Analyze text and extract useful information.</p>
+</a>
+
+            <a href="{{url_for('web')}}" class="card">
+                <h3>Web Intelligence</h3>
+                <p>Extract and organize information from websites.</p>
+            </a>
+
+            <a href="{{url_for('image')}}"  class="card">
+                <h3>Image Processing</h3>
+                <p>Resize, merge and process images.</p>
+            </a>
+
+            <a href="{{url_for('audio')}}" class="card">
+                <h3>Audio Intelligence</h3>
+                <p>Analyze audio and visualize sound.</p>
+            </a>
+
+            <a href="{{url_for('analytics')}}"  class="card">
+                <h3>Data Analytics</h3>
+                <p>Analyze datasets and generate graphs.</p>
+            </a>
+
+            <a href="{{url_for('automation')}}"  class="card">
+                <h3>Automation Lab</h3>
+                <p>Automate repetitive desktop tasks.</p>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Intelligence - SmartDesk</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>Web Intelligence Lab</h1>
+        <p>Welcome to the Web intelligence lab</p>
+    </header>
+
+    <main>
+       <h2>Extract and organize information from websites</h2>
+
+<form method="POST">
+    <input
+        type="text"
+        name="url"
+        placeholder="Enter website URL"
+        required
+    >
+
+    <button type="submit">Analyze Website</button>
+</form>
+
+        <a href="{{ url_for('home') }}">Back to Dashboard</a>
+    </main>
+
+</body>
+</html>

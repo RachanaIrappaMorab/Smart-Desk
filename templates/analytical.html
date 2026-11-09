@@ -1,0 +1,95 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Analytics - SmartDesk</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Data Analytics Lab</h1>
+        <p>Upload and explore your datasets</p>
+    </header>
+
+    <main>
+
+        <h2>CSV Dataset Analyzer</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label>Select CSV File</label>
+
+            <input
+                type="file"
+                name="csv_file"
+                accept=".csv"
+                required
+            >
+
+            <button type="submit">
+                Analyze Dataset
+            </button>
+
+        </form>
+
+        {% if error %}
+
+            <p>{{ error }}</p>
+
+        {% endif %}
+
+        {% if filename %}
+
+            <hr>
+
+            <h2>Dataset Information</h2>
+
+            <p><strong>Filename:</strong> {{ filename }}</p>
+
+            <p>
+                <strong>Total Rows:</strong>
+                {{ total_rows }}
+            </p>
+
+            <p>
+                <strong>Total Columns:</strong>
+                {{ total_columns }}
+            </p>
+
+            <h2>Column Names</h2>
+
+            <ul>
+
+                {% for column in column_names %}
+
+                    <li>{{ column }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+            <h2>Dataset Preview</h2>
+
+            <p>Showing the first 5 rows.</p>
+
+            <div style="overflow-x: auto;">
+                {{ dataset_preview | safe }}
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('home') }}">
+            Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+</html>
+```
